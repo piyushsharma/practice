@@ -37,6 +37,50 @@ public class CourseSchedule {
             return true;
         }
 
+        List<List<Integer>> graph = new ArrayList<>();
+
+        for(int i = 0; i < numCourses; ++i) {
+            graph.add(i, new ArrayList<>());
+        }
+        int[] indegree = new int[numCourses];
+     
+        for(int i = 0; i < prerequisites.length; ++i) {
+            int courseNum = prerequisites[i][0];
+            int prereqNum = prerequisites[i][1];            
+            graph.get(prereqNum).add(courseNum);
+            indegree[courseNum] += 1;
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i = 0; i < numCourses; ++i) {
+            if(indegree[i] == 0) {
+                queue.add(i);
+            }
+        }
+        
+        int count = 0;
+        while(!queue.isEmpty()) {
+            int course = queue.poll();
+            ++count;
+            
+            List<Integer> neighbors =  graph.get(course);
+            for(int n : neighbors) {
+                indegree[n] -= 1;
+                if(indegree[n] == 0) {
+                    queue.add(n);
+                }                
+            }            
+        }
+
+        return count == numCourses;
+    }
+
+
+    public boolean canFinishV2(int numCourses, int[][] prerequisites) {
+        if(prerequisites == null || prerequisites.length == 0) {
+            return true;
+        }
+
         Map<Integer, Set<Integer>> graph = buildGraph(numCourses, prerequisites);
 
         if(graph.size() > numCourses) {

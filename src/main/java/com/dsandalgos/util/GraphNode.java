@@ -15,6 +15,13 @@ public class GraphNode {
 
     private boolean visited;
 
+    public enum Color {
+        RED,
+        BLUE
+    }
+
+    private Color color;
+
     public GraphNode() { };
 
     public GraphNode(int val) {
@@ -46,5 +53,13 @@ public class GraphNode {
 
     public void setVisited(boolean visited) {
         this.visited = visited;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

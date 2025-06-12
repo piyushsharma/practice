@@ -45,16 +45,18 @@ public class BinaryTreePaths {
         }
 
         String curNodeStr = Integer.toString(root.val);
-        if(path.length() != 0) {
-            curNodeStr = "->" + curNodeStr;
+        String newPath;
+        if(path.length() == 0) {
+            newPath = curNodeStr;            
+        } else {
+            newPath = path + "->" + curNodeStr;
         }
-        String nPath = path + curNodeStr;
 
         if (root.left == null && root.right == null) {
-            result.add(nPath);
+            result.add(newPath);
         } else {
-            binaryTreePaths(root.left, result, nPath);
-            binaryTreePaths(root.right, result, nPath);
+            binaryTreePaths(root.left, result, newPath);
+            binaryTreePaths(root.right, result, newPath);
         }
     }
 

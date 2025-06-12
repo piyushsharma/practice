@@ -40,7 +40,7 @@ public class BinaryTreeLevelOrderTraversalTwo {
             return result;
 
         /* Using null as level markers */
-        Queue<TreeNode> q = new LinkedList();
+        Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
         q.add(null);
         List<Integer> levelList = new LinkedList<Integer>();

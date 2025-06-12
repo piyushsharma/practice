@@ -22,6 +22,35 @@ public class MergeKSortedLists {
         }
     }
 
+    public ListNode mergeKListsSimpler(ListNode[] lists) {
+        
+        if(lists == null || lists.length == 0) {
+            return null;
+        }
+
+        Queue<ListNode> pq = new PriorityQueue<>(lists.length, Comparator.comparingInt(a -> a.val));
+
+        for(int i = 0; i < lists.length; ++i) {
+            if(lists[i] != null)
+                pq.add(lists[i]);
+        } 
+
+        ListNode head = new ListNode(0);
+        ListNode mergedCur = head;
+
+        while(!pq.isEmpty()) {
+
+            mergedCur.next = pq.poll();
+            mergedCur = mergedCur.next;
+
+            if(mergedCur.next != null) {
+                pq.add(mergedCur.next);
+            }
+        }
+
+        return head.next;
+    }
+
     // log k insertion into heap, and nk insertions
     // O(nklogk) // Space => O(k)
     public ListNode mergeKLists(ListNode[] lists) {

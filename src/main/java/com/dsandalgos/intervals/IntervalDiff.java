@@ -1,4 +1,4 @@
-package com.dsandalgos.misc;
+package com.dsandalgos.intervals;
 
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.intervals;
 
 import java.util.*;
 
@@ -32,16 +32,9 @@ public class MergeIntervals {
             } else {
                 result.getLast()[1] = Math.max(result.getLast()[1], interval[1]);
             }
-        }
-        int[][] r = new int[result.size()][2];
-        int i = 0;
-        for(int[] item : result) {
-            r[i][0] = item[0];
-            r[i][1] = item[1];
-            ++i;
-        }
+        }        
 
-        return r;
+        return result.toArray(new int[result.size()][]);
     }
 
 

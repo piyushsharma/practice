@@ -50,6 +50,50 @@ public class RotateImage {
         }
     }
 
+    public void rotateV2(int[][] matrix) {
+        transpose(matrix);
+        reflect(matrix);
+
+    }
+
+
+    void transpose(int[][] matrix) {
+        int n = matrix.length;
+
+        for(int i = 0; i < n; ++i) {
+            for(int j = i + 1; j < n; ++j) {
+                int tmp = matrix[j][i];
+                matrix[j][i] = matrix[i][j];
+                matrix[i][j] = tmp;
+            }
+        }
+    }
+
+    void reflect(int[][] matrix) {
+        int n = matrix.length;
+
+        for(int i = 0; i < n; ++i) {
+            reverseRow(matrix[i]);            
+        }
+    }
+
+    void reverseRow(int[] matrix) {
+        int n = matrix.length;
+
+        int start = 0;
+        int end = n - 1;
+        while(start < end) {
+
+            int temp = matrix[start];
+            matrix[start] = matrix[end];
+            matrix[end] = temp;
+            ++start;
+            --end;
+
+        }
+    }
+
+
     public static void main(String[] args) {
         RotateImage r = new RotateImage();
 

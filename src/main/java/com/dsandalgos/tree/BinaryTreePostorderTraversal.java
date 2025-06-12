@@ -34,7 +34,7 @@ public class BinaryTreePostorderTraversal {
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> result = new ArrayList<Integer>();
 
-        Stack<TreeNode> s = new Stack();
+        Stack<TreeNode> s = new Stack<>();
         HashMap<TreeNode, Integer> map = new HashMap<TreeNode, Integer>();
 
         while(true) {

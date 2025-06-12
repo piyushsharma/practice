@@ -4,7 +4,15 @@ import java.util.*;
 
 public class TaskScheduler {
 
+    class Task {
+        int count;
+        char id;
 
+        Task(char id) {
+            this.id = id;
+        }
+    }
+    
     public int leastInterval(char[] tasks, int n) {
 
         Map<Character, Task> taskMap = new HashMap<>();
@@ -50,14 +58,7 @@ public class TaskScheduler {
         return curTime;
     }
 
-    class Task {
-        int count;
-        char id;
-
-        Task(char id) {
-            this.id = id;
-        }
-    }
+   
 
     public static void main(String[] args) {
 //        int x = new TaskScheduler().leastInterval(new char[]{'A','A','A','B','B','B'}, 2);
