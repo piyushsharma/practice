@@ -1,4 +1,4 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.linkedlist;
 
 /**
  * Created by Piyush Sharma on 2/27/15.

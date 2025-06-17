@@ -34,7 +34,7 @@ public class NextPermutation {
      * Now, what kind of rearrangement will produce the next larger number?
      * We want to create the permutation just larger than the current one.
      * Therefore, we need to replace the number a[i-1] with the number which is just larger than itself
-     * among the numbers lying to its right section, say a[j]a[j].
+     * among the numbers lying to its right section, say a[j].
      *
      * We swap the numbers a[i-1] and a[j]. We now have the correct number at index i-1.
      * But still the current permutation isn't the permutation that we are looking for.
@@ -72,6 +72,30 @@ public class NextPermutation {
             swap(nums, i-1, j);
         }
 
+        reverse(nums, i, end);
+    }
+
+
+    public void nextPermutationV2(int[] nums) {
+        if(nums.length < 2) return;
+
+        int end = nums.length - 1;
+        int i = end;
+
+        while(i > 0 && nums[i-1] >= nums[i]) {
+            --i;
+        }
+
+        if(i == 0) {
+            reverse(nums, i, end);
+            return;
+        }
+
+        int j = end;
+        while(j > 0 && nums[j] <= nums[i-1]) {
+            --j;
+        }
+        swap(nums, i-1, j);
         reverse(nums, i, end);
     }
 

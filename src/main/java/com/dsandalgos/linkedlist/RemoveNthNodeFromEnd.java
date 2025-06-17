@@ -1,4 +1,4 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.linkedlist;
 
 import com.dsandalgos.util.ListNode;
 import com.dsandalgos.util.DataStructureUtility;
@@ -21,6 +21,24 @@ Try to do this in one pass. */
 public class RemoveNthNodeFromEnd {
 
     public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode dummy = new ListNode(-1);
+        ListNode first = dummy;
+        ListNode second = dummy;
+
+        for (int i = 0; i < n + 1; ++i) {
+            first = first.next;
+        }
+
+        while (first.next != null) {
+            first = first.next;
+            second = second.next;
+        }
+        second.next = second.next.next;
+        return dummy.next;
+    }
+
+
+    public ListNode removeNthFromEndV2(ListNode head, int n) {
         ListNode cur = head;
         ListNode temp = head;
         int i = 0;

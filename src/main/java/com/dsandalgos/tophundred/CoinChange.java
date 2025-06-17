@@ -26,11 +26,58 @@ You may assume that you have an infinite number of each kind of coin.
 
 public class CoinChange {
 
+    // for each coin: consider counting it towards the amount, or discarding it
+    // if we make it to the amount, get the minimum and return
+    public int coinChangeRecursive(int[] coins, int amount) {
+        int result = coinChange(coins, coins.length - 1, amount, 0);
+        return result == Integer.MAX_VALUE ? -1 : result;
+    }
+
+    private int coinChange(int[] coins, int i, int amount, int count) {
+
+        if(i < 0 || amount < 0) return Integer.MAX_VALUE;
+
+        if(amount == 0) return count;
+
+        int discardThisCoin = coinChange(coins, i - 1, amount, count);
+        int useThisCoin = coinChange(coins, i, amount - coins[i], count + 1);
+
+        return Math.min(discardThisCoin, useThisCoin);
+    }
+
+    // for each coin: consider counting it towards the amount, or discarding it
+    // if we make it to the amount, get the minimum and return
+    public int coinChangeDPTopDown(int[] coins, int amount) {
+        if(amount <= 0) return 0;
+        return coinChange(coins, amount, new int[amount + 1]);
+    }
+
+    private int coinChange(int[] coins, int amountRem, int[] cache) {
+        // nothing more to do
+        if(amountRem == 0) return 0;
+
+        if(amountRem < 0) return -1;
+
+        if(cache[amountRem] != 0) return cache[amountRem];
+        int min = Integer.MAX_VALUE;
+        for(int coin : coins) {
+            int res = coinChange(coins, amountRem - coin, cache);
+            if(res >= 0 && res < min) {
+                // use this coin
+                min = 1 + res;
+            }
+        }
+        cache[amountRem] = min == Integer.MAX_VALUE ? -1 : min;
+        return cache[amountRem];
+    }
+
+
+
     // let dp[i] denote the minimum number of coins required to make amount i
     // dp[i + coin] = min (dp[i + coin], dp[i] + 1)
 
     // O(number of coins * amount)
-    public int coinChange(int[] coins, int amount) {
+    public int coinChangeDP(int[] coins, int amount) {
         // initialize an array with something > amount
         // Note: we didn't use INT_MAX, as we may do INT_MAX + 1 causing overflow
         int max = amount + 1;
@@ -51,29 +98,6 @@ public class CoinChange {
         return dp[amount] >= max ? -1 : dp[amount];
     }
 
-
-    // for each coin: consider counting it towards the amount, or discarding it
-    // if we make it to the amount, get the minimum and return
-    public int coinChangeRecursive(int[] coins, int amount) {
-        int result = coinChange(coins, coins.length - 1, amount, 0);
-        return result == Integer.MAX_VALUE ? -1 : result;
-    }
-
-    private int coinChange(int[] coins, int i, int amount, int count) {
-
-        if(i < 0 || amount < 0) return Integer.MAX_VALUE;
-
-        if(amount == 0) return count;
-
-        int discardThisCoin = coinChange(coins, i - 1, amount, count);
-        int useThisCoin = coinChange(coins, i, amount - coins[i], count + 1);
-
-        return Math.min(discardThisCoin, useThisCoin);
-    }
-
-
-
-
     public int changeR(int amount, int[] coins) {
         if(amount == 0) {
             return 1;
@@ -89,14 +113,11 @@ public class CoinChange {
             return;
         }
 
-
         if(curSum == amount) {
             result[0] += 1;
             return;
         }
-
         changeR(coins, index, curSum + coins[index], amount, result);
-
         changeR(coins, index + 1, curSum, amount, result);
     }
 
@@ -105,24 +126,8 @@ public class CoinChange {
         CoinChange c = new CoinChange();
 //        System.out.println(c.coinChange(new int[]{3,4,5}, 11));
 //        System.out.println(c.coinChange(new int[]{3,7,405,436}, 8839));
-
 //        System.out.println(c.coinChange(new int[]{1,2147483647}, 2));
-        String x = System.getProperty("line.separator");
-
-
-//        String csvTest = "Subject Employee ID,Subject Email Address,Subject First Name (optional),Subject Last Name (optional),Coach Employee ID,Coach Email Address,Coach First Name (optional),Coach Last Name (optional),Remove Action,Subject End Date – Leave Blank,Glint Error Message - Leave Blank\r\n" +
-//                "aadamaijala19729@example.com,aadamaijala19729@example.com,Aada,Pinto,,,,,,,\r\n" +
-//                "xwang6@linkedin.com,xwang6@linkedin.com,Xin,Wang,,,,,,,\r\n";
-
-        String csvTest = "Subject Employee ID,Subject Email Address,Subject First Name (optional),Subject Last Name (optional),Coach Employee ID,Coach Email Address,Coach First Name (optional),Coach Last Name (optional),Remove Action,Subject End Date – Leave Blank,Glint Error Message - Leave Blank\r\naadamaijala19729@example.com,aadamaijala19729@example.com,Aada,Pinto,,,,,,,\r\nxwang6@linkedin.com,xwang6@linkedin.com,Xin,Wang,,,,,,,";
-
-        csvTest = csvTest.replaceAll("(?:\\r\\n|\\r|\\n)", "\n");
-
-        System.out.println(csvTest);
-
-
         System.out.println(c.changeR(500, new int[]{3,5,7,8,9,10,11}));
-
     }
 
     /*

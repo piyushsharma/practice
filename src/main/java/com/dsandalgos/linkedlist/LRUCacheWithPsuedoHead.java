@@ -1,6 +1,7 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.linkedlist;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA
@@ -19,9 +20,8 @@ set(key, value) - Set or insert the value if the key is not already present.
 */
 
 
-public class LRUCache {
+public class LRUCacheWithPsuedoHead {
 
-    HashMap<Integer, CacheNode> cache = new HashMap<Integer, CacheNode>();
     class CacheNode {
         int val;
         int key;
@@ -33,13 +33,19 @@ public class LRUCache {
         }
     }
 
-    CacheNode head = null;
-    CacheNode tail = null;
-    private int capacity = 0;
-    private int count = 0;
+    Map<Integer, CacheNode> cache;
+    CacheNode head;
+    CacheNode tail;
+    int capacity;
 
-    public LRUCache(int capacity) {
+    public LRUCacheWithPsuedoHead(int capacity) {
         this.capacity = capacity;
+        cache = new HashMap<>();
+
+        this.head = new CacheNode(-1, -1);
+        this.tail = new CacheNode(-1, -1);
+        head.next = tail;
+        tail.prev = head;
     }
 
     public int get(int key) {
@@ -47,8 +53,8 @@ public class LRUCache {
         if(keyNode == null) {
             return -1;
         }
-        deleteNode(keyNode);
-        insertAtHead(keyNode);
+        delete(keyNode);
+        insert(keyNode);
         return keyNode.val;
     }
 
@@ -56,60 +62,35 @@ public class LRUCache {
        - Remove from cache if hits the capacity
        - Remember not to include capacity check when just replacing old value
      */
-    public void set(int key, int value) {
+    public void put(int key, int value) {
         CacheNode node = cache.get(key);
-        /* No need to reduce count, if we already have the key,
-          we will not exceed capacity, just replace old value and put the node at head
-         */
         if(node != null) {
-            deleteNode(node);
-            node.val = value;
-            insertAtHead(node);
-            return;
+            delete(node);
         }
 
-        if(count >= capacity) {
-            cache.remove(tail.key);
-            deleteNode(tail);
-            --count;
-        }
-        node = new CacheNode(key, value);
-        insertAtHead(node);
-        cache.put(key, node);
-        ++count;
-    }
+        CacheNode newNode = new CacheNode(key, value);
+        cache.put(key, newNode);
+        insert(newNode);
 
-    public void deleteNode(CacheNode node) {
-        if(node == null)
-            return;
-
-        CacheNode prev = node.prev;
-        CacheNode next = node.next;
-
-        if(prev == null) {
-            head = next;
-        } else {
-            prev.next = next;
-        }
-
-        if(next == null) {
-            tail = prev;
-        } else {
-            next.prev = prev;
+        if(cache.size() > capacity) {
+            CacheNode nodeToDelete = head.next;
+            delete(nodeToDelete);
+            cache.remove(nodeToDelete.key);
         }
     }
 
+    public void delete(CacheNode node) {
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
 
-    public void insertAtHead(CacheNode node) {
-        node.next = head;
-        node.prev = null;
-        if(head != null) {
-            head.prev = node;
-        }
-        if(tail == null) {
-            tail = node;
-        }
-        head = node;
+
+    public void insert(CacheNode node) {
+        CacheNode prevEnd = tail.prev;
+        prevEnd.next = node;
+        node.prev = prevEnd;
+        node.next = tail;
+        tail.prev = node;
     }
 
     public static void main(String[] args) {
@@ -120,11 +101,11 @@ public class LRUCache {
 //        System.out.println(l.get(2));
 //        System.out.println(l.get(3));
 
-        LRUCache l = new LRUCache(2);
-        l.set(2, 1);
-        l.set(1, 1);
-        l.set(2, 3);
-        l.set(4, 1);
+        LRUCacheWithPsuedoHead l = new LRUCacheWithPsuedoHead(2);
+        l.put(2, 1);
+        l.put(1, 1);
+        l.put(2, 3);
+        l.put(4, 1);
         System.out.println(l.get(1));
         System.out.println(l.get(2));
 

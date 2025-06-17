@@ -1,4 +1,4 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.linkedlist;
 
 import com.dsandalgos.util.ListNode;
 import com.dsandalgos.util.DataStructureUtility;
@@ -58,11 +58,10 @@ public class PalindromeLinkedList {
     }
 
     private ListNode reverseLinkedList(ListNode head) {
-        ListNode next;
         ListNode prev = null;
         ListNode cur = head;
         while(cur != null) {
-            next = cur.next;
+            ListNode next = cur.next;
             cur.next = prev;
             prev = cur;
             cur = next;

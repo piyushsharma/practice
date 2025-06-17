@@ -57,6 +57,40 @@ public class FlattenDLinkedList {
             return head;
         }
 
+        Node psuedoHead = new Node(0, null, head, null);
+        Node cur = psuedoHead;
+        Node prev = psuedoHead;
+
+        Stack<Node> stack = new Stack<>();
+        stack.push(head);
+
+        while(!stack.isEmpty()) {
+
+            cur = stack.pop();
+            prev.next = cur;
+            cur.prev = prev;
+
+            if(cur.next != null) {
+                stack.push(cur.next);
+            }
+            if(cur.child != null) {
+                stack.push(cur.child);
+                cur.child = null;
+            }
+            prev = cur;
+        }
+
+        psuedoHead.next.prev = null;
+        return psuedoHead.next;
+    }
+
+
+    public Node flattenV2(Node head) {
+
+        if(head == null) {
+            return head;
+        }
+
         Node cur = head;
         Stack<Node> stack = new Stack<>();
 

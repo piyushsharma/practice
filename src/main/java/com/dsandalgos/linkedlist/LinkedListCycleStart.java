@@ -1,4 +1,4 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.linkedlist;
 
 import com.dsandalgos.util.ListNode;
 

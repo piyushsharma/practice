@@ -11,6 +11,58 @@ public class VerticalOrder {
         TreeNode(int x) { val = x; }
     }
 
+    class Pair<K, V> {
+        K key;
+        V value;
+        Pair(K k, V v) {
+            key = k;
+            value = v;
+        }
+        K getKey() {
+            return key;
+        }
+        V getValue() {
+            return value;
+        }
+    }
+
+    // can maintain min and max when traveling the queue to avoid key sorting later
+    public List<List<Integer>> verticalOrder(TreeNode root) {
+        if(root == null) return Collections.emptyList();
+
+        Map<Integer, List<Integer>> cache = new HashMap<>();
+        Queue<Pair<TreeNode, Integer>> q = new ArrayDeque<>();
+        q.add(new Pair(root, 0));
+
+        while(!q.isEmpty()) {
+            Pair<TreeNode, Integer> pair = q.poll();
+
+            TreeNode node = pair.getKey();
+            Integer level = pair.getValue();
+
+            List<Integer> l = cache.getOrDefault(level, new ArrayList<>());
+            l.add(node.val);
+            cache.put(level, l);
+
+            if(node.left != null) {
+                q.add(new Pair(node.left, level - 1));
+            }
+            if(node.right != null) {
+                q.add(new Pair(node.right, level + 1));
+            }
+        }
+
+        List<Integer> keys = new ArrayList<>();
+        keys.addAll(cache.keySet());
+        Collections.sort(keys);
+
+        List<List<Integer>> result = new ArrayList<>();
+        for(int k : keys) {
+            result.add(cache.get(k));
+        }
+        return result;
+    }
+
     class TreeNodePos {
         TreeNode node;
         int col;
@@ -21,8 +73,7 @@ public class VerticalOrder {
         }
     }
 
-
-    public List<List<Integer>> verticalOrder(TreeNode root) {
+    public List<List<Integer>> verticalOrderV2(TreeNode root) {
 
         List<List<Integer>> result = new ArrayList<>();
         if(root == null) return result;
