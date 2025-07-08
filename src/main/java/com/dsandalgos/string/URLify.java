@@ -1,4 +1,4 @@
-package com.dsandalgos.ctci;
+package com.dsandalgos.string;
 
 /**
  *  Write a method to replace all spaces in a string with %20 - in place

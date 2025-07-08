@@ -25,6 +25,51 @@ public class SearchRange {
 
         int l = 0;
         int r = nums.length - 1;
+        result[0] = binSearch(nums, target, l, r, true);
+        if(result[0] != -1) {
+            result[1] = binSearch(nums, target, l, r, false);
+        }
+        return result;
+    }
+
+    private int binSearch(int[] nums, int target,  int l, int r, boolean lowBound) {
+        // now find the high range
+        while (l <= r) {
+            int mid = l + (r - l)/2;
+
+            if(nums[mid] == target) {
+                if(lowBound) {
+
+                    if(mid == l || nums[mid - 1] != target) {
+                        return mid;
+                    }
+                    r  = mid - 1;
+                } else {
+
+                    if(mid == r || nums[mid + 1] != target) {
+                        return mid;
+                    }
+
+                    l = mid + 1;
+                }
+
+
+            } else if(nums[mid] < target) {
+                l = mid + 1;
+            } else if (nums[mid] > target) {
+                r = mid - 1;
+            }
+        }
+        return -1;
+    }
+
+
+    // Worst case O(logn)
+    public int[] searchRangeV2(int[] nums, int target) {
+        int[] result = new int[]{-1, -1};
+
+        int l = 0;
+        int r = nums.length - 1;
 
         // first only find the low range
         while (l <= r && r >= 0) {
@@ -61,7 +106,7 @@ public class SearchRange {
     }
 
     // Worst case O(n)
-    public int[] searchRangeV2(int[] nums, int target) {
+    public int[] searchRangeV3(int[] nums, int target) {
         int[] result = new int[]{-1, -1};
 
         int r = nums.length - 1;

@@ -26,8 +26,7 @@ package com.dsandalgos.intervals;
 import java.util.ArrayList;
 import java.util.List;
 
-
-class intervalIntersection {
+class IntervalListIntersection {
 
 
     public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {

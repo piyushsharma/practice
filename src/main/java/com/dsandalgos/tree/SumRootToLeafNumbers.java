@@ -16,7 +16,35 @@ import com.dsandalgos.util.TreeNode;
 
 public class SumRootToLeafNumbers {
 
+
+    int result = 0;
     public int sumNumbers(TreeNode root) {
+        if(root == null) {
+            return -1;
+        }
+
+        recur(root, root.val);
+        return result;
+    }
+
+    void recur(TreeNode root, int val) {
+
+        if(root.left == null && root.right == null) {
+            result += val;
+            return;
+        }
+
+        if(root.left != null) {
+            recur(root.left, val * 10 + root.left.val);
+        }
+
+        if(root.right != null) {
+            recur(root.right, val * 10 + root.right.val);
+        }
+
+    }
+
+    public int sumNumbersV2(TreeNode root) {
         if(root == null)
             return 0;
 
@@ -37,7 +65,7 @@ public class SumRootToLeafNumbers {
         return totalSum;
     }
 
-    public int sumNumbersV2(TreeNode root) {
+    public int sumNumbersV3(TreeNode root) {
         if(root == null)
             return 0;
 

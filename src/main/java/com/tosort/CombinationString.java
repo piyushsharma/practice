@@ -6,7 +6,7 @@ package com.tosort;
  */
 
 
-public class Combinations {
+public class CombinationString {
 
     // prints the empty string as well
     private static void combinations2(String prefix, String inStr) {

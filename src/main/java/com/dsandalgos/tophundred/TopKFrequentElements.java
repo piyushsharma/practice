@@ -24,6 +24,32 @@ import java.util.*;
 
 public class TopKFrequentElements {
 
+
+    public int[] topKFrequentArr(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for(int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+
+        // uses min heap -- optimized for when k is small
+        PriorityQueue<Integer> pq = new PriorityQueue<>((n1, n2) -> (map.get(n1) - map.get(n2)));
+
+        for(Integer n : map.keySet()) {
+            pq.add(n);
+            if(pq.size() > k) {
+                pq.remove();
+            }
+        }
+
+        int[] topK = new int[k];
+        for(int i = k - 1; i >= 0; --i) {
+            topK[i] = pq.remove();
+        }
+
+
+        return topK;
+    }
+
     public List<Integer> topKFrequent(int[] nums, int k) {
         Map<Integer, Integer> map = new HashMap<>();
         for(int num : nums) {

@@ -10,51 +10,105 @@ import java.util.Stack;
  */
 
 /*
-Given an absolute path for a file (Unix-style), simplify it.
+You are given an absolute path for a Unix-style file system, which always begins with a slash '/'.
+Your task is to transform this absolute path into its simplified canonical path.
 
-For example,
-path = "/home/", => "/home"
-path = "/a/./b/../../c/", => "/c"
+The rules of a Unix-style file system are as follows:
+
+A single period '.' represents the current directory.
+A double period '..' represents the previous/parent directory.
+Multiple consecutive slashes such as '//' and '///' are treated as a single slash '/'.
+Any sequence of periods that does not match the rules above should be treated as a valid directory or file name.
+For example, '...' and '....' are valid directory or file names.
+The simplified canonical path should follow these rules:
+
+The path must start with a single slash '/'.
+Directories within the path must be separated by exactly one slash '/'.
+The path must not end with a slash '/', unless it is the root directory.
+The path must not have any single or double periods ('.' and '..') used to denote current or parent directories.
+Return the simplified canonical path.
+
+
+
+Example 1:
+
+Input: path = "/home/"
+
+Output: "/home"
+
+Explanation:
+
+The trailing slash should be removed.
+
+Example 2:
+
+Input: path = "/home//foo/"
+
+Output: "/home/foo"
+
+Explanation:
+
+Multiple consecutive slashes are replaced by a single one.
+
+Example 3:
+
+Input: path = "/home/user/Documents/../Pictures"
+
+Output: "/home/user/Pictures"
+
+Explanation:
+
+A double period ".." refers to the directory up a level (the parent directory).
+
+Example 4:
+
+Input: path = "/../"
+
+Output: "/"
+
+Explanation:
+
+Going one level up from the root directory is not possible.
+
+Example 5:
+
+Input: path = "/.../a/../b/c/../d/./"
+
+Output: "/.../b/d"
+
+Explanation:
+
+"..." is a valid name for a directory in this problem.
+
 
  */
 public class SimplifyPath {
 
     public String simplifyPath(String path) {
-        if(path == null || path.isEmpty())
-            return path;
+        Stack<String> stack = new Stack<>();
+        String[] components = path.split("/");
 
-        String[] str = path.split("/");
-        Stack<String> absPath = new Stack<String>();
-
-        for(int i = 0; i < str.length; ++i) {
-            String p = str[i];
-
-            // p.isEmpty handles double slashes
-            if(p.isEmpty() || p.equals(".")) {
+        for(String c : components) {
+            if(c.equals(".") || c.isEmpty()) {
                 continue;
             }
-            if(!absPath.isEmpty() && p.equals("src/test")) {
-                absPath.pop();
-                continue;
+
+            if(c.equals("..")) {
+                if(!stack.isEmpty()) {
+                    stack.pop();
+                }
+            } else {
+                stack.add(c);
             }
-            if(!p.equals("src/test")) absPath.push(p);
         }
 
-        if(absPath.isEmpty()) {
-            return "/";
+        StringBuilder sb = new StringBuilder();
+        for(String s : stack) {
+            sb.append("/");
+            sb.append(s);
         }
 
-        List<String> result = new ArrayList<String>();
-        while(!absPath.isEmpty()) {
-            result.add(absPath.pop());
-        }
-
-        StringBuilder sb = new StringBuilder("/");
-        for(int i = result.size() - 1; i >= 0; --i) {
-            sb.append(result.get(i) + "/");
-        }
-
-        return sb.substring(0, sb.length() - 1);
+        return sb.length()  > 0 ? sb.toString() : "/";
     }
 
 

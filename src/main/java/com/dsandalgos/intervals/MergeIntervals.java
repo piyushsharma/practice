@@ -20,22 +20,19 @@ return [1,6],[8,10],[15,18].
 
 public class MergeIntervals {
 
-    public int[][] mergeIntervalArrays(int[][] intervals) {
-
-        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
-
-        LinkedList<int[]> result = new LinkedList<>();
-        for(int[] interval : intervals) {
-
-            if(result.isEmpty() || result.getLast()[1] < interval[0]) {
-                result.add(new int[]{interval[0], interval[1]});
-            } else {
-                result.getLast()[1] = Math.max(result.getLast()[1], interval[1]);
-            }
-        }        
-
-        return result.toArray(new int[result.size()][]);
-    }
+//    public int[][] mergeIntervalArrays(int[][] intervals) {
+//        Arrays.sort(intervals, (a, b) -> (a[0] - b[0]));
+//        List<int[]> result = new ArrayList<>();
+//        for(int i = 0; i < intervals.length; ++i) {
+//            // current starts after prev end
+//            if(result.isEmpty() || result.getLast()[1] < intervals[i][0]) {
+//                result.add(intervals[i]);
+//            } else {
+//                result.getLast()[1] = Math.max(intervals[i][1], result.getLast()[1]);
+//            }
+//        }
+//        return result.toArray(new int[result.size()][]);
+//    }
 
 
     /**

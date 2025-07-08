@@ -1,6 +1,7 @@
 package com.tosort;
 
 import java.util.Random;
+import java.util.*;
 
 class Point {
     int x;
@@ -22,6 +23,61 @@ class Point {
 
 public class KClosestPoints 
 {
+
+	public int[][] kClosest(int[][] points, int k) {
+
+		PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> (b[2] - a[2]));
+
+		for(int[] d : points) {
+			int dist = (d[0] * d[0]) + (d[1] * d[1]);
+
+			if(q.size() < k) {
+				q.add(new int[]{d[0], d[1], dist});
+				// System.out.println("1 = " + d[0] + " " + d[1] + " " + dist);
+			} else if(dist < q.peek()[2]) {
+
+				q.remove();
+				q.add(new int[]{d[0], d[1], dist});
+
+				// System.out.println("2 = " + d[0] + " " + d[1] + " " + dist);
+			}
+		}
+
+		int[][] result = new int[k][2];
+		for(int i = 0; i < k; ++i) {
+			int[] item = q.remove();
+			result[i] = new int[]{item[0], item[1]};
+		}
+
+		return result;
+
+	}
+
+
+	public List<Integer> findClosestElements(int[] arr, int k, int x) {
+
+		PriorityQueue<Integer> q = new PriorityQueue<>((a, b) -> (a-x) - (b-x));
+
+		for(int elem : arr) {
+
+			if(q.size() < k) {
+				q.add(elem);
+			} else if(Math.abs(q.peek() - x) > Math.abs(elem - x)) {
+				q.remove();
+				q.add(elem);
+			}
+		}
+
+		List<Integer> result = new ArrayList<>();
+		for(int i = 0; i < k; ++i) {
+			result.add(q.remove());
+			// result[i] = new int[]{item[0], item[1]};
+		}
+
+		return result;
+	}
+
+
 	private static void getKClosestPoints(Point[] points, int k)
 	{
 		Random r = new Random();
