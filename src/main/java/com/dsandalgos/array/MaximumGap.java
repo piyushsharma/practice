@@ -1,4 +1,6 @@
-package com.dsandalgos.util;
+package com.dsandalgos.array;
+
+import com.dsandalgos.util.Pair;
 
 import java.util.HashMap;
 import java.util.Map;

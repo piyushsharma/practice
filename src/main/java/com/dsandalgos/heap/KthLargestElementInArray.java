@@ -1,14 +1,14 @@
-package com.dsandalgos.tophundred;
+package com.dsandalgos.heap;
 
 import java.util.PriorityQueue;
 import java.util.Random;
 
 public class KthLargestElementInArray {
 
+    // Time: O(n * log k)
+    // Space: O(k)
     public int findKthLargest(int[] nums, int k) {
-
         PriorityQueue<Integer> pq = new PriorityQueue<>(k);
-
         for(int n : nums) {
             pq.add(n);
             if(pq.size() > k) {
@@ -32,8 +32,9 @@ public class KthLargestElementInArray {
      *
      */
 
+    // Time: O(n) on average, O(n^2) in worst case
+    // Space: O(n)
     public int findKthLargestHoare(int[] nums, int k) {
-
         return findKthSmallest(nums, 0, nums.length - 1, nums.length - k);
     }
 

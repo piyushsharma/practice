@@ -1,4 +1,4 @@
-package com.dsandalgos.math;
+package com.dsandalgos.heap;
 
 import java.util.PriorityQueue;
 

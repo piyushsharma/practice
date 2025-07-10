@@ -1,7 +1,5 @@
 package com.dsandalgos.design;
 
-import com.dsandalgos.util.NestedInteger;
-
 import java.util.*;
 
 /**

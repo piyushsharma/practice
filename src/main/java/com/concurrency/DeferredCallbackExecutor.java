@@ -7,6 +7,20 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DeferredCallbackExecutor {
+    /**
+     * Represents the class which holds the callback. For simplicity instead of
+     * executing a method, we print a message.
+     */
+    static class CallBack {
+
+        long executeAt;
+        String message;
+
+        public CallBack(long executeAfter, String message) {
+            this.executeAt = System.currentTimeMillis() + executeAfter * 1000;
+            this.message = message;
+        }
+    }
 
     PriorityQueue<CallBack> q = new PriorityQueue<CallBack>(new Comparator<CallBack>() {
         public int compare(CallBack o1, CallBack o2) {
@@ -55,20 +69,5 @@ public class DeferredCallbackExecutor {
         q.add(callBack);
         callBackArrivedCondition.signal();
         lock.unlock();
-    }
-
-    /**
-     * Represents the class which holds the callback. For simplicity instead of
-     * executing a method, we print a message.
-     */
-    static class CallBack {
-
-        long executeAt;
-        String message;
-
-        public CallBack(long executeAfter, String message) {
-            this.executeAt = System.currentTimeMillis() + executeAfter * 1000;
-            this.message = message;
-        }
     }
 }

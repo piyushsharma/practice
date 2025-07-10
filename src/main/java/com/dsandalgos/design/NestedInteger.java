@@ -1,4 +1,4 @@
-package com.dsandalgos.util;
+package com.dsandalgos.design;
 
 import java.util.List;
 

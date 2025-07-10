@@ -16,6 +16,64 @@ For example,
 
 public class IntegerToEnglishWords {
 
+    // Arrays to store words for numbers less than 10, 20, and 100
+    private static final String[] belowTen = { "", "One", "Two", "Three", "Four", "Five", "Six",
+            "Seven", "Eight", "Nine" };
+    private static final String[] belowTwenty = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",
+            "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen" };
+
+    private static final String[] belowHundred = { "", "Ten", "Twenty", "Thirty", "Forty",
+            "Fifty", "Sixty", "Seventy", "Eighty", "Ninety" };
+
+    public String numberToWords(int num) {
+        // Handle the special case where the number is zero
+        if (num == 0) {
+            return "Zero";
+        }
+        // Call the helper function to start the conversion
+        return convertToWords(num);
+    }
+
+    String convertToWords(int num) {
+
+        if(num < 10) {
+            return belowTen[num];
+        }
+
+        if(num < 20) {
+            return belowTwenty[num - 10];
+        }
+
+        if(num < 100) {
+            return belowHundred[num/10] + (num % 10 == 0 ? "" : " " + convertToWords(num % 10));
+        }
+
+        if(num < 1000) {
+            return belowTen[num/100] + " Hundred" + (num % 100 == 0 ? "" : " " + convertToWords(num % 100));
+        }
+
+        if(num < 1000000) {
+            return convertToWords(num/1000) + " Thousand"
+                    + (num % 1000 == 0 ? "" : " " + convertToWords(num % 1000));
+        }
+
+        if(num < 1000000000) {
+            return convertToWords(num/1000000) + " Million"
+                    + (num % 1000000 == 0 ? "" : " " + convertToWords(num % 1000000));
+        }
+
+
+        return convertToWords(num/1000000000) + " Billion"
+                + (num % 1000000000 == 0 ? "" : " " + convertToWords(num % 1000000000));
+
+    }
+
+    /**
+     *  V2 BELOW:
+     *
+     */
+
+
     private static final String[] TENS_NAMES = { "", " Ten", " Twenty",
             " Thirty", " Forty", " Fifty", " Sixty", " Seventy", " Eighty",
             " Ninety" };
@@ -36,7 +94,7 @@ public class IntegerToEnglishWords {
     private static final String S_HUNDRED = "Hundred";
 
 
-    public String numberToWords(int num) {
+    public String numberToWordsV2(int num) {
         if(num == 0)
             return "Zero";
 
